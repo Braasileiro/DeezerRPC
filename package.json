@@ -1,0 +1,29 @@
+{
+  "name": "deezerrpc",
+  "version": "1.0.0",
+  "description": "Deezer integrated with the Discord Rich Presence.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ./source/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrasileiroGamer/DeezerRPC.git"
+  },
+  "keywords": [
+    "deezer",
+    "discord",
+    "rich",
+    "presence"
+  ],
+  "author": "Lucas Cota",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/BrasileiroGamer/DeezerRPC/issues"
+  },
+  "homepage": "https://github.com/BrasileiroGamer/DeezerRPC#readme",
+  "devDependencies": {
+    "electron": "^5.0.0"
+  }
+}

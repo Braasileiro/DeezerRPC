@@ -2,7 +2,16 @@ const settings = require('./settings');
 const { app, BrowserWindow } = require('electron');
 
 function createWindow(visibility) {
-    return new BrowserWindow({ width: settings.WindowWidth, height: settings.WindowHeight, show: visibility, title: 'DeezerRPC' })
+    return new BrowserWindow({
+        width: settings.WindowWidth,
+        height: settings.WindowHeight,
+        show: visibility,
+        title: 'DeezerRPC',
+        webPreferences : {
+            nodeIntegration: true,
+            webviewTag: true,
+        }
+    });
 }
 
 function createMainWindow() {

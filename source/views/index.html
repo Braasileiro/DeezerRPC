@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>DeezerRPC</title>
+        <link rel="stylesheet" href="css/webview.css">
+    </head>
+    <body>
+        <!--<webview src="https://connect.deezer.com/oauth/auth.php?app_id=345002&redirect_uri=https://deezer.com/br"></webview>-->
+        <webview src="https://deezer.com/br"></webview>
+        <script>
+            onload = () => {
+                const webview = document.querySelector('webview');
+
+                webview.addEventListener('dom-ready', () => {
+                    require('../renderer.js');
+                });
+            };
+        </script>
+    </body>
+</html>

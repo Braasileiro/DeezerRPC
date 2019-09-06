@@ -1,6 +1,9 @@
 const settings = require('./settings');
 const { app, BrowserWindow } = require('electron');
 
+var mainWindow;
+var splashWindow;
+
 function createWindow(visibility) {
     return new BrowserWindow({
         width: settings.WindowWidth,
@@ -11,34 +14,46 @@ function createWindow(visibility) {
 }
 
 function createSplashWindow() {
-    splash = createWindow(true);
+    splashWindow = createWindow(true);
 
-    splash.loadURL(`file://${__dirname}/views/splash.html`)
+    splashWindow.loadURL(`file://${__dirname}/views/splash.html`)
 }
 
 function createMainWindow() {
-    let window = createWindow(false);
+    mainWindow = createWindow(false);
 
-    window.loadURL(settings.DeezerUrl);
+    mainWindow.loadURL(settings.DeezerUrl);
 
-    window.once('ready-to-show', () => {
-        window.webContents.session.cookies.get({}, cookies => {
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.webContents.session.cookies.get({}, cookies => {
             let arl = cookies.find(key => key.name == "arl");
 
             if (!arl) {
-                window.loadURL(settings.DeezerOAuthUrl + '?app_id=' + settings.DeezerApplicationID + '&redirect_uri=' + settings.DeezerUrl);
+                mainWindow.loadURL(settings.DeezerOAuthUrl + '?app_id=' + settings.DeezerApplicationID + '&redirect_uri=' + settings.DeezerUrl);
             }
 
-            splash.close();
-            window.show();
+            splashWindow.close();
+            mainWindow.show();
         });
-    })
-
-    window.webContents.executeJavaScript('document.documentElement.innerHTML', function (result) {
-        console.log(result);
     });
 
+    setTimeout(getCurrentSong, 7000);
+
     createSplashWindow();
+}
+
+function getCurrentSong() {
+    retrieveDocument('document.querySelector("div.marquee-content").innerHTML').then(function (response) {
+        console.log(response);
+    });
+}
+
+function retrieveDocument(query) {
+    return new Promise(function (resolve, reject) {
+        mainWindow.webContents.executeJavaScript(query, function (result) {
+            resolve(result);
+        });
+    });
 }
 
 app.on('ready', createMainWindow);

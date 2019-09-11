@@ -23,7 +23,7 @@ function createWindow(visibility: boolean) {
 function createSplashWindow() {
     splashWindow = createWindow(true);
 
-    splashWindow.loadURL(`file://${__dirname}/views/splash.html`)
+    splashWindow.loadURL(`file://${__dirname}/view/splash.html`)
 }
 
 function createMainWindow() {

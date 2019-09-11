@@ -2,9 +2,9 @@ import { JSDOM } from "jsdom";
 import Settings from './settings';
 import { app, BrowserWindow } from 'electron';
 
-import Song from './models/Song';
-import Album from './models/Album';
-import Artist from './models/Artist';
+import Song from './model/Song';
+import Album from './model/Album';
+import Artist from './model/Artist';
 
 var mainWindow: BrowserWindow;
 var splashWindow: BrowserWindow;

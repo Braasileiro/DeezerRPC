@@ -2,9 +2,10 @@
   "name": "deezerrpc",
   "version": "1.0.0",
   "description": "Deezer integrated with the Discord Rich Presence.",
-  "main": "main.js",
+  "main": "main.ts",
   "scripts": {
-    "start": "electron ./source/main.js",
+    "tsc": "tsc",
+    "start": "npm run tsc && electron ./build/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +25,11 @@
   },
   "homepage": "https://github.com/BrasileiroGamer/DeezerRPC#readme",
   "devDependencies": {
-    "electron": "^5.0.0"
+    "@types/jsdom": "^12.2.4",
+    "electron": "^5.0.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "jsdom": "^15.1.1"
   }
 }

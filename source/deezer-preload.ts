@@ -5,15 +5,15 @@ var song: string[];
 
 function songListener() {
 
-    const bottomPlay = document.querySelector("button.svg-icon-group-btn.is-highlight")!;
+    const marqueeContent = document.querySelector("div.marquee-content")!;
 
     const observer = new MutationObserver(() => {
-        song = document.querySelector("div.marquee-content")!.textContent!.split(" · ");
+        song = marqueeContent.textContent!.split(" · ");
 
         ipcRenderer.send('song-changed', new Song(song[0], song[1]));
     });
     
-    observer.observe(bottomPlay, { attributes: true });
+    observer.observe(marqueeContent, { childList: true });
 }
 
 

@@ -1,21 +1,30 @@
 import path from 'path';
 import Settings from './settings';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 
 var mainWindow: BrowserWindow;
 var splashWindow: BrowserWindow;
 
 
 // Main
-function createWindow(visibility: boolean) {
+function createWindow(visibility: boolean, preload?: string) {
+    if (preload) {
+        return new BrowserWindow({
+            width: Settings.WindowWidth,
+            height: Settings.WindowHeight,
+            show: visibility,
+            title: 'DeezerRPC',
+            webPreferences: {
+                preload: path.join(__dirname, preload)
+            }
+        });
+    }
+
     return new BrowserWindow({
         width: Settings.WindowWidth,
         height: Settings.WindowHeight,
         show: visibility,
-        title: 'DeezerRPC',
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
-        }
+        title: 'DeezerRPC'
     });
 }
 
@@ -26,23 +35,23 @@ function createSplashWindow() {
 }
 
 function createMainWindow() {
-    mainWindow = createWindow(false);
+    mainWindow = createWindow(false, 'deezer-preload.js');
 
     mainWindow.loadURL(Settings.DeezerUrl);
 
-    mainWindow.once('ready-to-show', () => {
-        mainWindow.webContents.session.cookies.get({name: "arl"}, (arl) => {
-            if (!arl) {
-                mainWindow.loadURL(Settings.DeezerOAuthUrl + '?app_id=' + Settings.DeezerApplicationID + '&redirect_uri=' + Settings.DeezerUrl);
-            }
-
-            mainWindow.show();
-            splashWindow.close();
-        });
+    mainWindow.webContents.once('did-finish-load', () => {
+        mainWindow.show();
+        splashWindow.close();
     });
 
     createSplashWindow();
 }
+
+
+// IPC
+ipcMain.on('song-changed', (event: any, args: any) => {
+    console.log(args);
+});
 
 
 // Initialize Trigger

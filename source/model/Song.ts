@@ -1,9 +1,9 @@
 export default class Song {
     name: string;
-    album: string;
+    artist: string;
 
-    constructor(name: string, album: string) {
+    constructor(name: string, artist: string) {
         this.name = name;
-        this.album = album;
+        this.artist = artist;
     }
 }

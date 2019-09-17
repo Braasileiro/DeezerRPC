@@ -2,20 +2,37 @@ import Song from './model/Song';
 import { ipcRenderer } from 'electron';
 
 var song: string[];
+var isPlaying: boolean;
+var playButtonObserver: MutationObserver;
+var songContentObserver: MutationObserver;
 
-function songListener() {
 
-    const marqueeContent = document.querySelector("div.marquee-content")!;
+function initializeListeners() {
 
-    const observer = new MutationObserver(() => {
-        song = marqueeContent.textContent!.split(" · ");
+    // Song Listener
+    const songContent = document.querySelector("div.marquee-content")!;
+
+    songContentObserver = new MutationObserver(() => {
+        song = songContent.textContent!.split(" · ");
 
         ipcRenderer.send('song-changed', new Song(song[0], song[1]));
     });
     
-    observer.observe(marqueeContent, { childList: true });
+    songContentObserver.observe(songContent, { childList: true });
+
+
+    // Play Button Listener
+    const playContent = document.querySelector("button.svg-icon-group-btn.is-highlight")!;
+
+    playButtonObserver = new MutationObserver(() => {
+        isPlaying = playContent.getAttribute("aria-label")! == "Play";
+
+        ipcRenderer.send('play-button-changed', isPlaying);
+    });
+
+    playButtonObserver.observe(playContent, { attributes: true });
 }
 
 
 // IPC
-setTimeout(songListener, 3000);
+setTimeout(initializeListeners, 3000);

@@ -2,7 +2,7 @@ import path from 'path';
 import Song from './model/Song';
 import Settings from './settings';
 import { Client } from 'discord-rpc';
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 
 var mainWindow: BrowserWindow;
 var splashWindow: BrowserWindow;
@@ -47,24 +47,39 @@ function createMainWindow() {
         splashWindow.close();
     });
 
+    mainWindow.on('close', (event) => {
+        event.preventDefault();
+
+        mainWindow.destroy();
+    });
+
     createSplashWindow();
 }
 
 
 // IPC
 ipcMain.on('song-changed', (event: any, song: Song) => {
+    if (!song.artist) {
+        song.artist = "Unknown Artist";
+    }
+
     RPC.setActivity({
         details: song.name,
-        state: `${song.album}`,
-        startTimestamp: new Date().getDate(),
+        state: song.artist,
+        largeImageKey: "default",
+        largeImageText: "Album",
+        smallImageKey: "default",
+        smallImageText: "Listening",
         instance: false,
     });
 });
 
 
-// Initialize Trigger
+// App
 app.on('ready', createMainWindow);
 
 
 // Initialize RPC
-RPC.login({ clientId: Settings.DiscordClientID }).catch(console.error);
+RPC.login({ clientId: Settings.DiscordClientID }).catch(() => {
+    dialog.showErrorBox("Rich Presence Login Failed", "Please, verify if your discord app is opened/working and reopen this application.");
+});

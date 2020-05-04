@@ -64,16 +64,28 @@ ipcMain.on('song-changed', (event: any, song: Song) => {
         song.name = "Unknown Song";
     }
 
-    RPC.setActivity({
-        details: song.name,
-        state: song.artist,
-        endTimestamp: song.time,
-        largeImageKey: "default",
-        largeImageText: "Album",
-        smallImageKey: "default",
-        smallImageText: "Listening",
-        instance: false,
-    });
+    if (song.listening) {
+        RPC.setActivity({
+            details: song.name,
+            state: song.artist,
+            endTimestamp: song.time,
+            largeImageKey: "default",
+            largeImageText: "DeezerRPC",
+            smallImageKey: "listening",
+            smallImageText: "Listening",
+            instance: false,
+        });
+    } else {
+        RPC.setActivity({
+            details: song.name,
+            state: song.artist,
+            largeImageKey: "default",
+            largeImageText: "DeezerRPC",
+            smallImageKey: "paused",
+            smallImageText: "Paused",
+            instance: false,
+        });
+    }
 });
 
 

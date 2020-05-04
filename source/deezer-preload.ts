@@ -6,12 +6,14 @@ import { ipcRenderer } from 'electron';
 function initializeListeners() {
     setInterval(function () {
         const songContent = document.querySelector("div.marquee-content")?.querySelectorAll("a.track-link")
+        const isListening = document.querySelector("button.svg-icon-group-btn.is-highlight")?.querySelector("svg.svg-icon.svg-icon-pause") != null
 
         if (songContent != null) {
             ipcRenderer.send('song-changed', new Song(
                 songContent[0].textContent!,
                 songContent[1].textContent!,
-                timestamp()
+                timestamp(),
+                isListening
             ));
 
             return
@@ -23,7 +25,8 @@ function initializeListeners() {
             ipcRenderer.send('song-changed', new Song(
                 queueContent.textContent!,
                 document.querySelector("div.queuelist-cover-subtitle")?.textContent!,
-                timestamp()
+                timestamp(),
+                isListening
             ));
         }
     }, 5000)

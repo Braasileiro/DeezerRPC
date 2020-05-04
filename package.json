@@ -25,12 +25,13 @@
   },
   "homepage": "https://github.com/BrasileiroGamer/DeezerRPC#readme",
   "devDependencies": {
-    "@types/discord-rpc": "^3.0.1",
-    "electron": "^5.0.0",
-    "shelljs": "^0.8.3",
-    "typescript": "^3.6.3"
+    "@types/discord-rpc": "^3.0.3",
+    "electron": "^5.0.13",
+    "shelljs": "^0.8.4",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
-    "discord-rpc": "^3.1.0"
+    "discord-rpc": "^3.1.0",
+    "moment": "^2.25.3"
   }
 }

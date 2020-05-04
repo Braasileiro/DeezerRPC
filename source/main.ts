@@ -63,9 +63,14 @@ ipcMain.on('song-changed', (event: any, song: Song) => {
         song.artist = "Unknown Artist";
     }
 
+    if (!song.name) {
+        song.name = "Unknown Song";
+    }
+
     RPC.setActivity({
         details: song.name,
         state: song.artist,
+        endTimestamp: song.time,
         largeImageKey: "default",
         largeImageText: "Album",
         smallImageKey: "default",

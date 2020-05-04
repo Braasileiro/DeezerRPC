@@ -4,12 +4,34 @@ import Settings from './settings';
 import { Client } from 'discord-rpc';
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 
-var mainWindow: BrowserWindow;
-var splashWindow: BrowserWindow;
 const RPC = new Client({ transport: 'ipc' });
 
 
-// Main
+// Entry
+function createMainWindow() {
+    let splashWindow: BrowserWindow;
+    const mainWindow = createWindow(false, 'deezer-preload.js');
+
+    // Main
+    mainWindow.loadURL(Settings.DeezerUrl);
+
+    mainWindow.webContents.once('did-finish-load', () => {
+        mainWindow.show();
+        splashWindow.close();
+    });
+
+    mainWindow.on('close', (event) => {
+        event.preventDefault();
+
+        mainWindow.destroy();
+    });
+
+    // Splash
+    splashWindow = createWindow(true);
+
+    splashWindow.loadURL(`file://${__dirname}/view/splash.html`)
+}
+
 function createWindow(visibility: boolean, preload?: string) {
     if (preload) {
         return new BrowserWindow({
@@ -29,31 +51,6 @@ function createWindow(visibility: boolean, preload?: string) {
         show: visibility,
         title: 'DeezerRPC'
     });
-}
-
-function createSplashWindow() {
-    splashWindow = createWindow(true);
-
-    splashWindow.loadURL(`file://${__dirname}/view/splash.html`)
-}
-
-function createMainWindow() {
-    mainWindow = createWindow(false, 'deezer-preload.js');
-
-    mainWindow.loadURL(Settings.DeezerUrl);
-
-    mainWindow.webContents.once('did-finish-load', () => {
-        mainWindow.show();
-        splashWindow.close();
-    });
-
-    mainWindow.on('close', (event) => {
-        event.preventDefault();
-
-        mainWindow.destroy();
-    });
-
-    createSplashWindow();
 }
 
 

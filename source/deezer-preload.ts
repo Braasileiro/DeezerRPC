@@ -1,36 +1,44 @@
+import moment from 'moment'
 import Song from './model/Song';
 import { ipcRenderer } from 'electron';
 
-var song: string[];
-var isPlaying: boolean;
-var playButtonObserver: MutationObserver;
-var songContentObserver: MutationObserver;
-
 
 function initializeListeners() {
+    setInterval(function () {
+        const songContent = document.querySelector("div.marquee-content")?.querySelectorAll("a.track-link")
 
-    // Song Listener
-    const songContent = document.querySelector("div.marquee-content")!;
+        if (songContent != null) {
+            ipcRenderer.send('song-changed', new Song(
+                songContent[0].textContent!,
+                songContent[1].textContent!,
+                timestamp()
+            ));
 
-    songContentObserver = new MutationObserver(() => {
-        song = songContent.textContent!.split(" · ");
+            return
+        }
 
-        ipcRenderer.send('song-changed', new Song(song[0], song[1]));
-    });
-    
-    songContentObserver.observe(songContent, { childList: true });
+        const queueContent = document.querySelector("div.queuelist-cover-title")
 
+        if (queueContent != null) {
+            ipcRenderer.send('song-changed', new Song(
+                queueContent.textContent!,
+                document.querySelector("div.queuelist-cover-subtitle")?.textContent!,
+                timestamp()
+            ));
+        }
+    }, 5000)
+}
 
-    // Play Button Listener
-    const playContent = document.querySelector("button.svg-icon-group-btn.is-highlight")!;
+function timestamp(): number {
+    const sMax = document.querySelector("div.slider-counter.slider-counter-max")!.textContent
+    const sCurrent = document.querySelector("div.slider-counter.slider-counter-current")!.textContent
 
-    playButtonObserver = new MutationObserver(() => {
-        isPlaying = playContent.getAttribute("aria-label")! == "Play";
-
-        ipcRenderer.send('play-button-changed', isPlaying);
-    });
-
-    playButtonObserver.observe(playContent, { attributes: true });
+    return moment(Date.now())
+        .add(sMax?.substring(0, 2), "m")
+        .add(sMax?.substring(3), "s")
+        .subtract(sCurrent?.substring(0, 2), "m")
+        .subtract(sCurrent?.substring(3), "s")
+        .unix();
 }
 
 

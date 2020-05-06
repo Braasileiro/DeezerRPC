@@ -28,6 +28,9 @@ function createMainWindow() {
 
     // Splash
     splashWindow = createWindow(true);
+    splashWindow.setResizable(false);
+    splashWindow.setMaximizable(false);
+    splashWindow.setMenu(null);
 
     splashWindow.loadURL(`file://${__dirname}/view/splash.html`)
 }

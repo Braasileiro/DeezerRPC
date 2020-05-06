@@ -2,11 +2,23 @@
   "name": "deezerrpc",
   "version": "1.0.0",
   "description": "Deezer integrated with the Discord Rich Presence.",
-  "main": "main.ts",
+  "main": "build/main.js",
   "scripts": {
     "tsc": "tsc",
     "package-assets": "node package-assets.js",
-    "start": "npm run tsc && npm run package-assets && electron ./dist/main.js"
+    "build": "npm run tsc && npm run package-assets",
+    "start": "npm run build && electron ./build/main.js",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder"
+  },
+  "build": {
+    "asar": "true",
+    "productName": "DeezerRPC",
+    "icon": "./app.ico",
+
+    "files": [
+      "build/**/*"
+    ]
   },
   "repository": {
     "type": "git",
@@ -18,15 +30,16 @@
     "rich",
     "presence"
   ],
-  "author": "Lucas Cota",
+  "author": "Brasileiro",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/BrasileiroGamer/DeezerRPC/issues"
+    "url": "https://github.com/Braasileiro/DeezerRPC/issues"
   },
-  "homepage": "https://github.com/BrasileiroGamer/DeezerRPC#readme",
+  "homepage": "https://github.com/Braasileiro/DeezerRPC#readme",
   "devDependencies": {
     "@types/discord-rpc": "^3.0.3",
     "electron": "^5.0.13",
+    "electron-builder": "^22.6.0",
     "shelljs": "^0.8.4",
     "typescript": "^3.8.3"
   },

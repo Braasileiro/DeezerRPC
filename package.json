@@ -14,7 +14,7 @@
   "build": {
     "asar": "true",
     "productName": "DeezerRPC",
-    "icon": "./app.ico",
+    "icon": "./assets/app.ico",
 
     "files": [
       "build/**/*"

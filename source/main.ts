@@ -13,6 +13,7 @@ function createMainWindow() {
     const mainWindow = createWindow(false, 'deezer-preload.js');
 
     // Main
+    mainWindow.setMenu(null);
     mainWindow.loadURL(Settings.DeezerUrl);
 
     mainWindow.webContents.once('did-finish-load', () => {

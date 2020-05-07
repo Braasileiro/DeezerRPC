@@ -8,3 +8,7 @@ This program opens the web version of the Deezer application and performs backgr
 Shows status on Discord and also supports global media keys.
 
 I don't understand why Deezer hasn't implemented this until today...
+
+<p align="center">
+  <img width="248px" height="569px" src="./assets/readme_discord_status.png">
+</p>

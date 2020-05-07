@@ -28,6 +28,19 @@ function initializeListeners() {
                 timestamp(),
                 isListening
             ));
+
+            return
+        }
+
+        const customContent = document.querySelector("div.marquee-content")?.textContent?.split(" · ");
+
+        if (customContent != null) {
+            ipcRenderer.send('song-changed', new Song(
+                customContent[0],
+                customContent[1],
+                timestamp(),
+                isListening
+            ));
         }
     }, 5000)
 }

@@ -8,7 +8,7 @@ function initializeListeners() {
         const songContent = document.querySelector("div.marquee-content")?.querySelectorAll("a.track-link")
         const isListening = document.querySelector("button.svg-icon-group-btn.is-highlight")?.querySelector("svg.svg-icon.svg-icon-pause") != null
 
-        if (songContent != null) {
+        if (songContent != null && songContent.length > 0) {
             ipcRenderer.send('song-changed', new Song(
                 songContent[0].textContent!,
                 songContent[1].textContent!,
@@ -16,7 +16,7 @@ function initializeListeners() {
                 isListening
             ));
 
-            return
+            return;
         }
 
         const queueContent = document.querySelector("div.queuelist-cover-title")
@@ -29,7 +29,7 @@ function initializeListeners() {
                 isListening
             ));
 
-            return
+            return;
         }
 
         const customContent = document.querySelector("div.marquee-content")?.textContent?.split(" · ");

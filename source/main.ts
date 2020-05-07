@@ -1,8 +1,9 @@
 import path from 'path';
 import Song from './model/Song';
 import Settings from './settings';
+import InputManager from './input';
 import { Client } from 'discord-rpc';
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, globalShortcut } from 'electron';
 
 const RPC = new Client({ transport: 'ipc' });
 
@@ -19,11 +20,11 @@ function createMainWindow() {
     mainWindow.webContents.once('did-finish-load', () => {
         mainWindow.show();
         splashWindow.close();
+        registerShortcuts(mainWindow.webContents);
     });
 
     mainWindow.on('close', (event) => {
         event.preventDefault();
-
         mainWindow.destroy();
     });
 
@@ -54,6 +55,22 @@ function createWindow(visibility: boolean, preload?: string) {
         height: Settings.WindowHeight,
         show: visibility,
         title: 'DeezerRPC'
+    });
+}
+
+function registerShortcuts(webContents: Electron.WebContents) {
+    const input = new InputManager(webContents);
+
+    globalShortcut.register('MediaPlayPause', () => {
+        input.space();
+    });
+
+    globalShortcut.register('MediaPreviousTrack', () => {
+        input.shiftLeft();
+    });
+
+    globalShortcut.register('MediaNextTrack', () => {
+        input.shiftRight();
     });
 }
 

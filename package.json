@@ -9,7 +9,9 @@
     "build": "npm run tsc && npm run package-assets",
     "start": "npm run build && electron ./build/main.js",
     "pack": "npm run build && electron-builder --dir",
-    "dist": "npm run build && electron-builder"
+    "dist": "npm run build && electron-builder",
+    "dist-win": "npm run build && electron-builder --win",
+    "dist-mac": "npm run build && electron-builder --mac"
   },
   "build": {
     "asar": "true",

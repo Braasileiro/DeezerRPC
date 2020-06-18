@@ -14,8 +14,7 @@
   "build": {
     "asar": "true",
     "productName": "DeezerRPC",
-    "icon": "./assets/app.ico",
-
+    "icon": "./assets/default.jpg",
     "files": [
       "build/**/*"
     ]
@@ -37,14 +36,14 @@
   },
   "homepage": "https://github.com/Braasileiro/DeezerRPC#readme",
   "devDependencies": {
-    "@types/discord-rpc": "^3.0.3",
-    "electron": "^5.0.13",
-    "electron-builder": "^22.6.0",
+    "@types/discord-rpc": "^3.0.4",
+    "electron": "^9.0.4",
+    "electron-builder": "^22.7.0",
     "shelljs": "^0.8.4",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.5"
   },
   "dependencies": {
     "discord-rpc": "^3.1.1",
-    "moment": "^2.25.3"
+    "moment": "^2.26.0"
   }
 }

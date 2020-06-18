@@ -15,7 +15,14 @@ function createMainWindow() {
 
     // Main
     mainWindow.setMenu(null);
-    mainWindow.loadURL(Settings.DeezerUrl);
+
+    if (process.platform === 'darwin') {
+        mainWindow.loadURL(Settings.DeezerUrl, {
+            userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'
+        });
+    } else {
+        mainWindow.loadURL(Settings.DeezerUrl);
+    }
 
     mainWindow.webContents.once('did-finish-load', () => {
         mainWindow.show();

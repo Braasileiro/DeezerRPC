@@ -11,15 +11,27 @@
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
     "dist-win": "npm run build && electron-builder --win",
-    "dist-mac": "npm run build && electron-builder --mac"
+    "dist-mac": "npm run build && electron-builder --mac",
+    "dist-linux": "npm run build && electron-builder --linux"
   },
   "build": {
     "asar": "true",
     "productName": "DeezerRPC",
-    "icon": "./assets/default.jpg",
+    "icon": "./assets/icon.png",
     "files": [
       "build/**/*"
-    ]
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.music"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Audio"
+    }
   },
   "repository": {
     "type": "git",

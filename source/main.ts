@@ -10,19 +10,29 @@ const RPC = new Client({ transport: 'ipc' });
 
 // Entry
 function createMainWindow() {
+    let userAgent: string;
     let splashWindow: BrowserWindow;
     const mainWindow = createWindow(false, 'deezer-preload.js');
 
     // Main
     mainWindow.setMenu(null);
 
-    if (process.platform === 'darwin') {
-        mainWindow.loadURL(Settings.DeezerUrl, {
-            userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'
-        });
-    } else {
-        mainWindow.loadURL(Settings.DeezerUrl);
+    switch (process.platform) {    
+        case 'linux':
+            userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'
+            break;
+
+        case 'darwin':
+            userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'
+            break;
+
+        // win32
+        default:
+            userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'
+            break;
     }
+
+    mainWindow.loadURL(Settings.DeezerUrl, { userAgent: userAgent });
 
     mainWindow.webContents.once('did-finish-load', () => {
         mainWindow.show();

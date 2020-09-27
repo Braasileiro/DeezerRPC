@@ -1,6 +1,6 @@
 {
   "name": "deezerrpc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Deezer integrated with the Discord Rich Presence.",
   "main": "build/main.js",
   "scripts": {
@@ -35,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BrasileiroGamer/DeezerRPC.git"
+    "url": "git+https://github.com/Braasileiro/DeezerRPC.git"
   },
   "keywords": [
     "deezer",

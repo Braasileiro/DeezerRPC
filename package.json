@@ -51,13 +51,14 @@
   "homepage": "https://github.com/Braasileiro/DeezerRPC#readme",
   "devDependencies": {
     "@types/discord-rpc": "^3.0.4",
-    "electron": "^9.0.4",
-    "electron-builder": "^22.7.0",
+    "electron": "^9.3.2",
+    "electron-builder": "^22.8.1",
     "shelljs": "^0.8.4",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.7"
   },
   "dependencies": {
-    "discord-rpc": "^3.1.1",
-    "moment": "^2.26.0"
+    "discord-rpc": "^3.1.4",
+    "electron-settings": "^4.0.2",
+    "moment": "^2.29.1"
   }
 }

@@ -9,7 +9,7 @@ import { app, BrowserWindow, Tray, Menu, ipcMain, dialog, globalShortcut, native
 
 const RPC = new Client({ transport: 'ipc' });
 const APP_PACKAGE = require('../package.json');
-const APP_PREFERENCES = new Configstore(APP_PACKAGE.name, { "closeToTray": true, "minimizeToTray": false });
+const APP_PREFERENCES = new Configstore(APP_PACKAGE.name, { "closeToTray": false, "minimizeToTray": false });
 
 var tray: Tray;
 

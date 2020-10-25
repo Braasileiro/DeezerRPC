@@ -3,18 +3,15 @@ import Song from './model/Song';
 import Settings from './settings';
 import InputManager from './input';
 import { Client } from 'discord-rpc';
-import { app, BrowserWindow, Tray, Menu, ipcMain, dialog, globalShortcut, nativeImage} from 'electron';
+import Configstore from 'configstore';
 import settings from 'electron-settings';
+import { app, BrowserWindow, Tray, Menu, ipcMain, dialog, globalShortcut, nativeImage, shell } from 'electron';
 
 const RPC = new Client({ transport: 'ipc' });
-const APP_VERSION = require('../package.json').version;
+const APP_PACKAGE = require('../package.json');
+const APP_PREFERENCES = new Configstore(APP_PACKAGE.name, { "closeToTray": true, "minimizeToTray": false });
 
 var tray: Tray;
-var mWindow: BrowserWindow;
-
-// States
-var closeToTray: boolean;
-var minimizeToTray: boolean;
 
 // Entry
 function createMainWindow() {
@@ -26,18 +23,18 @@ function createMainWindow() {
     mainWindow.setMenu(null);
 
     // User agent
-    switch (process.platform) {    
+    switch (process.platform) {
         case 'linux':
-            userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+            userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.114 Safari/537.36'
             break;
 
         case 'darwin':
-            userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+            userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.114 Safari/537.36'
             break;
 
         // win32
         default:
-            userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+            userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
             break;
     }
 
@@ -54,11 +51,11 @@ function createMainWindow() {
     mainWindow.on('close', (event) => {
         event.preventDefault();
 
-        if (closeToTray) mainWindow.hide(); else app.exit();
+        if (getPreference<boolean>('closeToTray')) mainWindow.hide(); else app.exit();
     });
 
     mainWindow.on('minimize', () => {
-        if (minimizeToTray) mainWindow.hide();
+        if (getPreference<boolean>('minimizeToTray')) mainWindow.hide();
     });
 
     // Splash
@@ -94,12 +91,9 @@ function createWindow(visibility: boolean, preload?: string) {
 async function registerShortcutsAndTray(mainWindow: BrowserWindow) {
     const input = new InputManager(mainWindow.webContents);
 
-    closeToTray = await settings.get('closeToTray') == true;
-    minimizeToTray = await settings.get('minimizeToTray') == true;
-
     // Tray
-    const icon = nativeImage.createFromPath(`${__dirname}/view/icon.png`);
-    
+    const icon = nativeImage.createFromPath(`${__dirname}/assets/icon.png`);
+
     icon.setTemplateImage(true);
 
     tray = new Tray(icon);
@@ -119,17 +113,17 @@ async function registerShortcutsAndTray(mainWindow: BrowserWindow) {
             submenu: [
                 {
                     type: 'normal',
-                    label: 'Play/Pause',
+                    label: '♪ Play/Pause',
                     click: () => input.space()
                 },
                 {
                     type: 'normal',
-                    label: 'Next',
+                    label: '→ Next',
                     click: () => input.shiftRight()
                 },
                 {
                     type: 'normal',
-                    label: 'Previous',
+                    label: '← Previous',
                     click: () => input.shiftLeft()
                 }
             ]
@@ -142,27 +136,27 @@ async function registerShortcutsAndTray(mainWindow: BrowserWindow) {
                 {
                     type: 'checkbox',
                     label: 'Minimize to tray',
-                    checked: minimizeToTray,
-                    click: async () => {
-                        minimizeToTray = !minimizeToTray;
-                        await settings.set('minimizeToTray', minimizeToTray);
+                    checked: getPreference<boolean>('minimizeToTray'),
+                    click: async (item) => {
+                        setPreference('minimizeToTray', item.checked);
+                        await settings.set('minimizeToTray', item.checked);
                     }
                 },
                 {
                     type: 'checkbox',
                     label: 'Close to tray',
-                    checked: closeToTray,
-                    click: async () => {
-                        closeToTray = !closeToTray;
-                        await settings.set('closeToTray', closeToTray);
+                    checked: getPreference<boolean>('closeToTray'),
+                    click: async (item) => {
+                        setPreference('closeToTray', item.checked);
+                        await settings.set('closeToTray', item.checked);
                     }
                 },
             ]
         },
         {
             type: 'normal',
-            label: `DeezerRPC ${APP_VERSION}`,
-            click: () => Electron.shell.openExternal("https://github.com/Braasileiro/DeezerRPC")
+            label: `DeezerRPC ${APP_PACKAGE.version}`,
+            click: () => shell.openExternal(APP_PACKAGE.homepage)
         },
         { type: 'separator' },
         {
@@ -177,7 +171,7 @@ async function registerShortcutsAndTray(mainWindow: BrowserWindow) {
 
     // Double clicking hide/show
     tray.on('double-click', () => {
-       if (mainWindow.isVisible()) mainWindow.hide(); else mainWindow.show();
+        if (mainWindow.isVisible()) mainWindow.hide(); else mainWindow.show();
     });
 
     // Global Shortcuts
@@ -192,9 +186,16 @@ async function registerShortcutsAndTray(mainWindow: BrowserWindow) {
     globalShortcut.register('MediaNextTrack', () => {
         input.shiftRight();
     });
+}
 
-    // Set global MainWindow
-    mWindow = mainWindow;
+
+// Preferences
+function getPreference<T>(key: string): T {
+    return APP_PREFERENCES.get(key);
+}
+
+function setPreference(key: string, value: any): any {
+    return APP_PREFERENCES.set(key, value);
 }
 
 

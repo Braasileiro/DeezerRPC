@@ -52,7 +52,7 @@
   "devDependencies": {
     "@types/configstore": "^4.0.0",
     "@types/discord-rpc": "^3.0.4",
-    "electron": "^10.1.5",
+    "electron": "^10.2.0",
     "electron-builder": "^22.9.1",
     "shelljs": "^0.8.4",
     "typescript": "^4.0.3"

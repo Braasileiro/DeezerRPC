@@ -1,3 +1,4 @@
+import got from 'got';
 import path from 'path';
 import Song from './model/Song';
 import Settings from './settings';
@@ -14,10 +15,39 @@ const APP_PREFERENCES = new Configstore(APP_PACKAGE.name, { "closeToTray": false
 var tray: Tray;
 
 // Entry
+function main() {
+    const url = 'https://raw.githubusercontent.com/Braasileiro/DeezerRPC/master/package.json';
+
+    checkUrl(url)
+        .then(() => got(url).then(response => {
+            const json = JSON.parse(response.body);
+
+            if (json.version != APP_PACKAGE.version) {
+                const result = dialog.showMessageBoxSync({
+                    type: 'info',
+                    buttons: [`Let's fucking go!`, 'Not now...'],
+                    defaultId: 0,
+                    title: 'DeezerRPC Updater',
+                    message: `DeezerRPC ${json.version} is now available`,
+                    detail: 'Do you want to be redirected to update?'
+                });
+
+                if (result == 0) {
+                    shell.openExternal(json.homepage);
+                    process.exit(1);
+                } else {
+                    createMainWindow();
+                }
+            }
+        })
+    )
+    .catch(() => createMainWindow());
+}
+
 function createMainWindow() {
     let userAgent: string;
     let splashWindow: BrowserWindow;
-    const mainWindow = createWindow(false, 'deezer-preload.js');
+    const mainWindow = createWindow(false, 'preload.js');
 
     // Disable menu (only works on Windows)
     mainWindow.setMenu(null);
@@ -25,16 +55,16 @@ function createMainWindow() {
     // User agent
     switch (process.platform) {
         case 'linux':
-            userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.114 Safari/537.36'
+            userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
             break;
 
         case 'darwin':
-            userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.114 Safari/537.36'
+            userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
             break;
 
         // win32
         default:
-            userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
+            userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
             break;
     }
 
@@ -236,8 +266,22 @@ ipcMain.on('song-changed', (event: any, song: Song) => {
 });
 
 
+// Utils
+function checkUrl(url: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+        const { protocol } = new URL(url);
+
+        const lib = protocol === 'https:' ? require('https') : require('http');
+
+        const request = lib.get(url, (response: any) => resolve(response));
+
+        request.on("error", (e: any) => reject(e));
+    });
+}
+
+
 // App
-app.on('ready', createMainWindow);
+app.on('ready', main);
 
 
 // Initialize RPC

@@ -1,6 +1,6 @@
 {
   "name": "deezerrpc",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Deezer integrated with the Discord Rich Presence.",
   "main": "build/main.js",
   "scripts": {
@@ -61,6 +61,7 @@
     "configstore": "^5.0.1",
     "discord-rpc": "^3.1.4",
     "electron-settings": "^4.0.2",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "got": "^11.8.2"
   }
 }

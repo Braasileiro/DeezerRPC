@@ -1,4 +1,3 @@
-const { fstat } = require('fs');
 const fs = require('fs');
 const shell = require('shelljs');
 

@@ -1,17 +1,18 @@
-module.exports = class InputManager {
+export default class InputManager {
+    private webContents: Electron.WebContents;
 
-    constructor(webContents) {
-        this.webContents = webContents;
+    constructor(webContents: Electron.WebContents) {
+        this.webContents = webContents;    
     }
 
-    space() {
+    space(): void {
         this.webContents.sendInputEvent({
             type: 'keyDown',
             keyCode: 'Space'
         });
     }
 
-    shiftLeft() {
+    shiftLeft(): void {
         this.webContents.sendInputEvent({
             type: 'keyDown',
             keyCode: 'Shift'
@@ -20,13 +21,13 @@ module.exports = class InputManager {
         this.webContents.sendInputEvent({
             type: 'keyDown',
             keyCode: 'Left',
-            modifiers: ['Shift']
+            modifiers: ['shift']
         });
 
         this.webContents.sendInputEvent({
             type: 'keyUp',
             keyCode: 'Left',
-            modifiers: ['Shift']
+            modifiers: ['shift']
         });
 
         this.webContents.sendInputEvent({
@@ -35,7 +36,7 @@ module.exports = class InputManager {
         });
     }
 
-    shiftRight() {
+    shiftRight(): void {
         this.webContents.sendInputEvent({
             type: 'keyDown',
             keyCode: 'Shift'
@@ -44,13 +45,13 @@ module.exports = class InputManager {
         this.webContents.sendInputEvent({
             type: 'keyDown',
             keyCode: 'Right',
-            modifiers: ['Shift']
+            modifiers: ['shift']
         });
 
         this.webContents.sendInputEvent({
             type: 'keyUp',
             keyCode: 'Right',
-            modifiers: ['Shift']
+            modifiers: ['shift']
         });
 
         this.webContents.sendInputEvent({

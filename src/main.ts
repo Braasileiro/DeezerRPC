@@ -10,7 +10,7 @@ import { app, BrowserWindow, Tray, Menu, ipcMain, dialog, globalShortcut, native
 
 const RPC = new Client({ transport: 'ipc' });
 const APP_PACKAGE = require('../package.json');
-const APP_PREFERENCES = new Configstore(APP_PACKAGE.name, { "closeToTray": false, "minimizeToTray": false });
+const APP_PREFERENCES = new Configstore(APP_PACKAGE.name, { 'closeToTray': false, 'minimizeToTray': false });
 
 var tray: Tray;
 
@@ -19,7 +19,7 @@ function main() {
     const url = 'https://raw.githubusercontent.com/Braasileiro/DeezerRPC/master/package.json';
 
     checkUrl(url)
-        .then(() => got(url).then(response => {
+        .then(() => got(url).then((response: any) => {
             const json = JSON.parse(response.body);
 
             if (json.version != APP_PACKAGE.version) {
@@ -38,6 +38,8 @@ function main() {
                 } else {
                     createMainWindow();
                 }
+            } else {
+                createMainWindow();
             }
         })
     )
@@ -55,16 +57,16 @@ function createMainWindow() {
     // User agent
     switch (process.platform) {
         case 'linux':
-            userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
+            userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36'
             break;
 
         case 'darwin':
-            userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
+            userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36'
             break;
 
         // win32
         default:
-            userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
+            userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36'
             break;
     }
 

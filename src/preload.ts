@@ -1,12 +1,12 @@
-import moment from 'moment'
+import dayjs from 'dayjs';
 import Song from './model/Song';
 import { ipcRenderer } from 'electron';
 
 
 function initializeListeners() {
     setInterval(function () {
-        const songContent = document.querySelector("div.marquee-content")?.querySelectorAll("a.track-link")
-        const isListening = document.querySelector("button.svg-icon-group-btn.is-highlight")?.querySelector("svg.svg-icon.svg-icon-pause") != null
+        const songContent = document.querySelector('div.marquee-content')?.querySelectorAll('a.track-link');
+        const isListening = !(document.querySelector('button.svg-icon-group-btn.is-highlight > svg > g > path')?.outerHTML == '<path d="m5 2 18 10L5 22V2z"></path>');
 
         if (songContent != null && songContent.length > 0) {
             ipcRenderer.send('song-changed', new Song(
@@ -19,12 +19,12 @@ function initializeListeners() {
             return;
         }
 
-        const queueContent = document.querySelector("div.queuelist-cover-title")
+        const queueContent = document.querySelector('div.queuelist-cover-title');
 
         if (queueContent != null) {
             ipcRenderer.send('song-changed', new Song(
                 queueContent.textContent!,
-                document.querySelector("div.queuelist-cover-subtitle")?.textContent!,
+                document.querySelector('div.queuelist-cover-subtitle')?.textContent!,
                 timestamp(),
                 isListening
             ));
@@ -32,7 +32,7 @@ function initializeListeners() {
             return;
         }
 
-        const customContent = document.querySelector("div.marquee-content")?.textContent?.split(" · ");
+        const customContent = document.querySelector('div.marquee-content')?.textContent?.split(" · ");
 
         if (customContent != null) {
             ipcRenderer.send('song-changed', new Song(
@@ -46,14 +46,16 @@ function initializeListeners() {
 }
 
 function timestamp(): number {
-    const sMax = document.querySelector("div.slider-counter.slider-counter-max")!.textContent
-    const sCurrent = document.querySelector("div.slider-counter.slider-counter-current")!.textContent
+    const sMax = document.querySelector('div.slider-counter.slider-counter-max')!.textContent;
+    const sCurrent = document.querySelector('div.slider-counter.slider-counter-current')!.textContent;
 
-    return moment(Date.now())
-        .add(sMax?.substring(0, 2), "m")
-        .add(sMax?.substring(3), "s")
-        .subtract(sCurrent?.substring(0, 2), "m")
-        .subtract(sCurrent?.substring(3), "s")
+    if (!sMax || !sCurrent) return 0;
+
+    return dayjs(Date.now())
+        .add(parseInt(sMax?.substring(0, 2)), 'm')
+        .add(parseInt(sMax?.substring(3)), 's')
+        .subtract(parseInt(sCurrent?.substring(0, 2)), 'm')
+        .subtract(parseInt(sCurrent?.substring(3)), 's')
         .unix();
 }
 

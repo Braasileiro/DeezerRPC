@@ -1,8 +1,7 @@
 const fs = require('fs');
 const shell = require('shelljs');
 
-shell.cp('-R', './source/view', './build/');
-shell.cp('./source/input.js', "./build/input.js");
+shell.cp('-R', './src/view', './build/');
 
 if (!fs.existsSync('./build/assets')) {
     shell.mkdir('./build/assets');

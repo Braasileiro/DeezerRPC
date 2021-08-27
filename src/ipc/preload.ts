@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
-import Song from './model/Song';
 import { ipcRenderer } from 'electron';
-
+import { IPCSong } from '../model/song';
 
 function initializeListeners() {
     setInterval(function () {
@@ -9,7 +8,7 @@ function initializeListeners() {
         const isListening = !(document.querySelector('button.svg-icon-group-btn.is-highlight > svg > g > path')?.outerHTML == '<path d="m5 2 18 10L5 22V2z"></path>');
 
         if (songContent != null && songContent.length > 0) {
-            ipcRenderer.send('song-changed', new Song(
+            ipcRenderer.send('song-changed', new IPCSong(
                 songContent[0].textContent!,
                 songContent[1].textContent!,
                 timestamp(),
@@ -22,7 +21,7 @@ function initializeListeners() {
         const queueContent = document.querySelector('div.queuelist-cover-title');
 
         if (queueContent != null) {
-            ipcRenderer.send('song-changed', new Song(
+            ipcRenderer.send('song-changed', new IPCSong(
                 queueContent.textContent!,
                 document.querySelector('div.queuelist-cover-subtitle')?.textContent!,
                 timestamp(),
@@ -35,7 +34,7 @@ function initializeListeners() {
         const customContent = document.querySelector('div.marquee-content')?.textContent?.split(" · ");
 
         if (customContent != null) {
-            ipcRenderer.send('song-changed', new Song(
+            ipcRenderer.send('song-changed', new IPCSong(
                 customContent[0],
                 customContent[1],
                 timestamp(),
@@ -45,11 +44,11 @@ function initializeListeners() {
     }, 5000)
 }
 
-function timestamp(): number {
+function timestamp(): number | undefined {
     const sMax = document.querySelector('div.slider-counter.slider-counter-max')!.textContent;
     const sCurrent = document.querySelector('div.slider-counter.slider-counter-current')!.textContent;
 
-    if (!sMax || !sCurrent) return 0;
+    if (!sMax || !sCurrent) return undefined;
 
     return dayjs(Date.now())
         .add(parseInt(sMax?.substring(0, 2)), 'm')

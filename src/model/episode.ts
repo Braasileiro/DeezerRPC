@@ -1,8 +1,9 @@
+import { APP } from '../app/app';
 import PlayerModel from './player';
 
-export default class Song extends PlayerModel {
-    album: string;
-    artist: string;
+export default class Episode extends PlayerModel {
+    name: string;
+    description: string;
 
     constructor(
         id: string,
@@ -10,19 +11,19 @@ export default class Song extends PlayerModel {
         listening: boolean,
         image: string | undefined,
         time: number | undefined,
-        album: string,
-        artist: string
+        name: string,
+        description: string
     ) {
         super(id, title, listening, image, time);
 
-        this.album = !album ? 'Unknown Album': album;
-        this.artist = !artist ? 'Unknown Artist': artist;
-        this.trayMessage = `${this.artist} • ${this.title}`;
-        this.notification = `${this.title}\n${this.album}\n${this.artist}`;
+        this.name = name;
+        this.description = description
+        this.trayMessage = `${this.name} • ${this.title}`;
+        this.notification = `${this.title}\n${this.name}`;
     }
 
     getState(): string {
-        return this.artist;
+        return this.name;
     }
 
     getStartTimestamp(): number | undefined {
@@ -34,6 +35,6 @@ export default class Song extends PlayerModel {
     }
 
     getImageText(): string {
-        return this.album;
+        return APP.name;
     }
 }

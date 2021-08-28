@@ -2,6 +2,7 @@ export default abstract class PlayerModel {
     id: string;
     title: string;
     listening: boolean;
+    streaming: boolean;
     image: string | undefined;
     time: number | undefined;
 
@@ -14,16 +15,24 @@ export default abstract class PlayerModel {
         id: string,
         title: string,
         listening: boolean,
+        streaming: boolean,
         image: string | undefined,
         time: number | undefined
     ) {
         this.id = id;
         this.title = !title ? 'Unknown' : title;
         this.listening = listening;
+        this.streaming = streaming;
         this.image = image;
         this.time = time;
-        this.statusKey = this.listening ? 'listening' : 'paused';
-        this.statusText = this.listening ? 'Listening' : 'Paused';
+
+        if (this.streaming) {
+            this.statusKey = 'streaming';
+            this.statusText = 'Streaming';
+        } else {
+            this.statusKey = this.listening ? 'listening' : 'paused';
+            this.statusText = this.listening ? 'Listening' : 'Paused';
+        }
     }
 
     abstract getState(): string;

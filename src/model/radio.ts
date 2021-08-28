@@ -8,10 +8,11 @@ export default class Radio extends PlayerModel {
         id: string,
         title: string,
         listening: boolean,
+        streaming: boolean,
         image: string | undefined,
         time: number | undefined
     ) {
-        super(id, title, listening, image, time);
+        super(id, title, listening, streaming, image, time);
 
         this.state = 'Radio';
         this.trayMessage = `Radio • ${this.title}`;

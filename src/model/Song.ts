@@ -8,13 +8,12 @@ export default class Song extends PlayerModel {
         id: string,
         title: string,
         listening: boolean,
-        streaming: boolean,
         image: string | undefined,
         time: number | undefined,
         album: string,
         artist: string
     ) {
-        super(id, title, listening, streaming, image, time);
+        super(id, title, listening, image, time);
 
         this.album = !album ? 'Unknown Album': album;
         this.artist = !artist ? 'Unknown Artist': artist;

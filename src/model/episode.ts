@@ -9,13 +9,12 @@ export default class Episode extends PlayerModel {
         id: string,
         title: string,
         listening: boolean,
-        streaming: boolean,
         image: string | undefined,
         time: number | undefined,
         name: string,
         description: string
     ) {
-        super(id, title, listening, streaming, image, time);
+        super(id, title, listening, image, time);
 
         this.name = name;
         this.description = description

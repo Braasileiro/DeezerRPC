@@ -74,7 +74,6 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
             `RADIO_${current.LIVE_ID}`,
             current.LIVESTREAM_TITLE,
             listening,
-            true,
             current.LIVESTREAM_IMAGE_MD5,
             RADIO_TIMESTAMP
         );
@@ -85,7 +84,6 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
             `EPISODE_${current.EPISODE_ID}`,
             current.EPISODE_TITLE,
             listening,
-            false,
             current.SHOW_ART_MD5,
             timestamp(listening, remaining),
             current.SHOW_NAME,
@@ -97,7 +95,6 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
         `SONG_${current.SNG_ID}`,
         current.SNG_TITLE,
         listening,
-        false,
         current.ALB_PICTURE,
         timestamp(listening, remaining),
         current.ALB_TITLE,

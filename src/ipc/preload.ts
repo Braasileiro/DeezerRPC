@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
+import IPCSong from './model/song';
 import { ipcRenderer } from 'electron';
-import { IPCSong } from '../model/song';
 
 function initializeListeners() {
     setInterval(function () {

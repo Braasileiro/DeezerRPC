@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
+import IPCSong  from './model/song';
 import { APP, RPC } from '../app/app';
-import { IPCSong } from '../model/song';
 import * as Tray from '../manager/tray';
 
 var LAST: string;

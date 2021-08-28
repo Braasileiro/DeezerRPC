@@ -63,6 +63,7 @@ function createMainWindow() {
 // App
 app.on('ready', main);
 
+
 // Initialize RPC
 RPC.login({ clientId: APP.settings.discordClientID }).catch(() => {
     dialog.showErrorBox("Rich Presence Login Failed", "Please, verify if your discord app is opened/working and relaunch this application.");

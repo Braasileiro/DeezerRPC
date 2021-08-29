@@ -8,7 +8,11 @@ import { app, Menu, shell, Tray } from 'electron';
 var tray: Tray;
 
 export function register() {
-    tray = new Tray(path.join(__dirname, '../assets/icon.png'));
+
+    tray = new Tray(path.join(
+        __dirname,
+        process.platform == 'win32' ? '../assets/tray/tray.ico' : '../assets/tray/tray.png'
+    ));
 
     tray.setContextMenu(
         Menu.buildFromTemplate([
@@ -56,11 +60,17 @@ export function register() {
                         checked: Preferences.getPreference<boolean>(APP.preferences.closeToTray),
                         click: (item) => Preferences.setPreference(APP.preferences.closeToTray, item.checked)
                     },
+                    {
+                        type: 'checkbox',
+                        label: 'Check for updates on startup',
+                        checked: Preferences.getPreference<boolean>(APP.preferences.checkUpdates),
+                        click: (item) => Preferences.setPreference(APP.preferences.checkUpdates, item.checked)
+                    },
                 ]
             },
             {
                 type: 'normal',
-                label: 'Check for updates on startup',
+                label: 'Check for updates',
                 click: () => Update.checkVersion()
             },
             {

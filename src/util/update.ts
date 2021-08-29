@@ -25,7 +25,7 @@ export async function checkVersion(fromUser: boolean) {
                 checkboxChecked: !Preferences.getPreference<boolean>(APP.preferences.checkUpdates)
             }).then(result => {
                 if (result.response == 0) {
-                    shell.openExternal(json.homepage);
+                    shell.openExternal(`${json.homepage}/releases/tag/${json.version}`);
                 }
 
                 Preferences.setPreference(APP.preferences.checkUpdates, !result.checkboxChecked)

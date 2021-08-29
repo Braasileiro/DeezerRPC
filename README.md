@@ -10,5 +10,5 @@ Shows status on Discord and also supports global media keys.
 I don't understand why Deezer hasn't implemented this until today...
 
 <p align="center">
-  <img width="299px" height="543px" src="./assets/readme/discord_status.png">
+  <img width="326px" height="627px" src="./assets/readme/discord_status.png">
 </p>

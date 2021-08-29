@@ -1,7 +1,13 @@
 import { Client } from 'discord-rpc';
 import Configstore from 'configstore';
+import { BrowserWindow } from 'electron';
 
 const PACKAGE = require('../../package.json');
+
+// Global
+declare global {
+    var __mainWindow: BrowserWindow;
+}
 
 // App
 export const APP = {

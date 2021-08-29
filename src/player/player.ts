@@ -29,7 +29,7 @@ export function registerShortcuts() {
     globalShortcut.register('MediaPreviousTrack', () => prevSong());
 }
 
-export function registerEvents() {
+export function registerRPC() {
     setInterval(function () {
         try {
             __mainWindow.webContents.executeJavaScript(

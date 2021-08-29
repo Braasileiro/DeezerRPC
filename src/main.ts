@@ -7,12 +7,6 @@ import * as Preferences from './util/preferences';
 import { app, BrowserWindow, dialog } from 'electron';
 
 
-// Global
-declare global {
-    var __mainWindow: BrowserWindow;
-}
-
-
 // Entry
 function main() {
     createMainWindow();
@@ -37,8 +31,8 @@ function createMainWindow() {
 
         if (Preferences.getPreference<boolean>(APP.preferences.checkUpdates)) Update.checkVersion();
 
-        // Player Events
-        setTimeout(Player.registerEvents, 3000);
+        // Initialize RPC
+        initializeRPC();
     });
 
     __mainWindow.on('minimize', () => {
@@ -59,12 +53,14 @@ function createMainWindow() {
     splashWindow.loadURL(`file://${__dirname}/web/splash.html`)
 }
 
+function initializeRPC() {
+    RPC.login({ clientId: APP.settings.discordClientID }).then(() => {
+        setTimeout(Player.registerRPC, 3000);
+    }).catch(() => {
+        dialog.showErrorBox("Rich Presence Login Failed", "Please, verify if your discord app is opened/working and relaunch this application.");
+    });
+}
+
 
 // App
 app.on('ready', main);
-
-
-// Initialize RPC
-RPC.login({ clientId: APP.settings.discordClientID }).catch(() => {
-    dialog.showErrorBox("Rich Presence Login Failed", "Please, verify if your discord app is opened/working and relaunch this application.");
-});

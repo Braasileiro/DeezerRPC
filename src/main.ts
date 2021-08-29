@@ -29,7 +29,7 @@ function createMainWindow() {
         Tray.register();
         Player.registerShortcuts();
 
-        if (Preferences.getPreference<boolean>(APP.preferences.checkUpdates)) Update.checkVersion();
+        if (Preferences.getPreference<boolean>(APP.preferences.checkUpdates)) Update.checkVersion(false);
 
         // Initialize RPC
         initializeRPC();

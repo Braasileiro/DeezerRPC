@@ -71,7 +71,7 @@ export function register() {
             {
                 type: 'normal',
                 label: 'Check for updates',
-                click: () => Update.checkVersion()
+                click: () => Update.checkVersion(true)
             },
             { type: 'separator' },
             {

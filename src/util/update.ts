@@ -3,7 +3,7 @@ import { APP } from '../app/app';
 import { dialog, shell } from 'electron';
 import * as Preferences from '../util/preferences';
 
-export async function checkVersion() {
+export async function checkVersion(fromUser: boolean) {
     try {
         const response = await got(APP.packageUrl, {
             timeout: {
@@ -31,11 +31,13 @@ export async function checkVersion() {
                 Preferences.setPreference(APP.preferences.checkUpdates, !result.checkboxChecked)
             });
         } else {
-            dialog.showMessageBox({
-                type: 'info',
-                title: `${APP.name} Updater`,
-                message: 'You already have the latest version.'
-            });
+            if (fromUser) {
+                dialog.showMessageBox({
+                    type: 'info',
+                    title: `${APP.name} Updater`,
+                    message: 'You already have the latest version.'
+                });
+            }
         }
     } catch (e) {
         console.error(e);

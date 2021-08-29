@@ -2,8 +2,8 @@ import path from 'path';
 import { APP } from '../app/app';
 import * as Update from '../util/update';
 import * as Player from '../player/player';
-import * as Preferences from '../util/preferences';
 import { app, Menu, shell, Tray } from 'electron';
+import * as Preferences from '../util/preferences';
 
 var tray: Tray;
 
@@ -88,7 +88,7 @@ export function register() {
     );
 
     // Initial Message
-    setMessage('No music played yet.');
+    setMessage(APP.name);
 
     // Events
     tray.on('double-click', () => __mainWindow.isVisible() ? __mainWindow.hide() : __mainWindow.show());

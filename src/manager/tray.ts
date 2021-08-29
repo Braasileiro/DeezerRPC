@@ -43,7 +43,6 @@ export function register() {
                     }
                 ]
             },
-            { type: 'separator' },
             {
                 type: 'submenu',
                 label: 'Settings',

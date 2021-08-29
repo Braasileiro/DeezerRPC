@@ -3,7 +3,6 @@ const shell = require('shelljs');
 
 shell.cp('-R', './src/web', './build/');
 
-if (!fs.existsSync('./build/assets')) {
-    shell.mkdir('./build/assets');
-    shell.cp('./assets/icon.png', './build/assets/icon.png');
-}
+if (!fs.existsSync('./build/assets')) shell.mkdir('./build/assets');
+
+shell.cp('-R', './assets/tray', './build/assets/tray');

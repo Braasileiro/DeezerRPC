@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { RPC } from '../app/app';
 import Song  from '../model/song';
 import Radio from '../model/radio';
+import Unknown from '../model/unknown';
 import Episode  from '../model/episode';
 import * as Tray from '../manager/tray';
 import { globalShortcut } from 'electron';
@@ -66,7 +67,7 @@ export function registerRPC() {
     }, 5000);
 }
 
-function getSong(current: any, listening: boolean, remaining: number): PlayerModel {
+function getSong(current: any, listening: boolean, remaining: number): PlayerModel {    
     if (current.LIVE_ID) {
         if (`RADIO_${current.LIVE_ID}` != LAST) RADIO_TIMESTAMP = dayjs(Date.now()).unix()
 
@@ -91,14 +92,24 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
         );
     }
 
-    return new Song(
-        `SONG_${current.SNG_ID}`,
-        current.SNG_TITLE,
-        listening,
-        current.ALB_PICTURE,
-        timestamp(listening, remaining),
-        current.ALB_TITLE,
-        current.ART_NAME
+    if (current.SNG_ID) {
+        return new Song(
+            `SONG_${current.SNG_ID}`,
+            current.SNG_TITLE,
+            listening,
+            current.ALB_PICTURE,
+            timestamp(listening, remaining),
+            current.ALB_TITLE,
+            current.ART_NAME
+        );
+    }
+
+    return new Unknown(
+        'UNKNOWN',
+        'Unknown Title',
+        false,
+        undefined,
+        undefined
     );
 }
 

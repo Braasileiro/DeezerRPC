@@ -4,9 +4,9 @@ export default abstract class PlayerModel {
     listening: boolean;
     image: string | undefined;
     time: number | undefined;
+    statusKey: string | undefined;
+    statusText: string | undefined;
 
-    statusKey: string;
-    statusText: string;
     trayMessage: string = '';
     notification: string = '';
 
@@ -18,7 +18,7 @@ export default abstract class PlayerModel {
         time: number | undefined
     ) {
         this.id = id;
-        this.title = !title ? 'Unknown' : title;
+        this.title = !title ? 'Unknown Title' : title;
         this.listening = listening;
         this.image = image;
         this.time = time;

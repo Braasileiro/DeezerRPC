@@ -1,28 +1,28 @@
 import { APP } from '../app/app';
 import PlayerModel from './player';
 
-export default class Radio extends PlayerModel {
+export default class Unknown extends PlayerModel {
     constructor(
         id: string,
         title: string,
         listening: boolean,
         image: string | undefined,
-        time: number | undefined
+        time: number | undefined,
     ) {
         super(id, title, listening, image, time);
 
-        this.statusKey = 'streaming';
-        this.statusText = 'Streaming';
-        this.trayMessage = `Radio • ${this.title}`;
-        this.notification = `${this.title}\nRadio`;
+        this.statusKey = undefined;
+        this.statusText = undefined;
+        this.trayMessage = APP.name;
+        this.notification = 'Unknown';
     }
 
     getState(): string {
-        return 'Radio';
+        return 'Unknown State';
     }
 
     getStartTimestamp(): number | undefined {
-        return this.time;
+        return undefined;
     }
 
     getEndTimestamp(): number | undefined {

@@ -60,7 +60,7 @@ export function register() {
             },
             {
                 type: 'normal',
-                label: 'Check for updates',
+                label: 'Check for updates on startup',
                 click: () => Update.checkVersion()
             },
             {

@@ -30,6 +30,12 @@ export async function checkVersion() {
 
                 Preferences.setPreference(APP.preferences.checkUpdates, !result.checkboxChecked)
             });
+        } else {
+            dialog.showMessageBox({
+                type: 'info',
+                title: `${APP.name} Updater`,
+                message: 'You already have the latest version.'
+            });
         }
     } catch (e) {
         console.error(e);

@@ -73,6 +73,7 @@ export function register() {
                 label: 'Check for updates',
                 click: () => Update.checkVersion()
             },
+            { type: 'separator' },
             {
                 type: 'normal',
                 label: `${APP.name} ${APP.version}`,

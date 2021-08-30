@@ -7,6 +7,7 @@ import Episode  from '../model/episode';
 import * as Tray from '../manager/tray';
 import { globalShortcut } from 'electron';
 import PlayerModel from '../model/player';
+import { setIntervalAsync } from 'set-interval-async/dynamic';
 
 var LAST = '';
 var SONG: PlayerModel;
@@ -31,36 +32,34 @@ export function registerShortcuts() {
 }
 
 export function registerRPC() {
-    setInterval(function () {
+    setIntervalAsync(async () => {
         try {
-            __mainWindow.webContents.executeJavaScript(
+            let [current, listening, remaining] = await __mainWindow.webContents.executeJavaScript(
                 `[
                     dzPlayer.getCurrentSong(),
                     dzPlayer.isPlaying(),
                     dzPlayer.getRemainingTime()
                 ]`
-            ).then(result => {
-                let [current, listening, remaining] = result;
+            );
 
-                SONG = getSong(current, listening, remaining);
+            SONG = getSong(current, listening, remaining);
 
-                RPC.setActivity({
-                    details: SONG.title,
-                    state: SONG.getState(),
-                    startTimestamp: SONG.getStartTimestamp(),
-                    endTimestamp: SONG.getEndTimestamp(),
-                    largeImageKey: 'default',
-                    largeImageText: SONG.getImageText(),
-                    smallImageKey: SONG.statusKey,
-                    smallImageText: SONG.statusText,
-                    instance: false,
-                });
-            
-                if (LAST !== SONG.id) {
-                    Tray.setMessage(SONG.trayMessage);
-                    LAST = SONG.id;
-                }
+            RPC.setActivity({
+                details: SONG.title,
+                state: SONG.getState(),
+                startTimestamp: SONG.getStartTimestamp(),
+                endTimestamp: SONG.getEndTimestamp(),
+                largeImageKey: 'default',
+                largeImageText: SONG.getImageText(),
+                smallImageKey: SONG.statusKey,
+                smallImageText: SONG.statusText,
+                instance: false,
             });
+        
+            if (LAST !== SONG.id) {
+                Tray.setMessage(SONG.trayMessage);
+                LAST = SONG.id;
+            }
         } catch (e) {
             console.error(e);
         }

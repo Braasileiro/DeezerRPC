@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
 import IPCSong from './model/song';
 import { ipcRenderer } from 'electron';
+import { setIntervalAsync } from 'set-interval-async/dynamic';
 
 function initializeListeners() {
-    setInterval(function () {
+    setIntervalAsync(function () {
         const songContent = document.querySelector('div.marquee-content')?.querySelectorAll('a.track-link');
         const isListening = !(document.querySelector('button.svg-icon-group-btn.is-highlight > svg > g > path')?.outerHTML == '<path d="m5 2 18 10L5 22V2z"></path>');
 

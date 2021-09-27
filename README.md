@@ -7,8 +7,10 @@ This application opens the web version of the Deezer application and performs ba
 
 Shows status on Discord and also supports global media keys.
 
+Supports songs (including ones that user upload), radios and podcasts.
+
 I don't understand why Deezer hasn't implemented this until today...
 
 <p align="center">
-  <img width="326px" height="627px" src="./assets/readme/discord_status.png">
+  <img width="947px" height="615px" src="./assets/readme/discord_status.png">
 </p>

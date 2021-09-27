@@ -12,5 +12,5 @@ Supports songs (including ones that user upload), radios and podcasts.
 I don't understand why Deezer hasn't implemented this until today...
 
 <p align="center">
-  <img width="947px" height="615px" src="./assets/readme/discord_status.png">
+  <img src="./assets/readme/discord_status.png">
 </p>

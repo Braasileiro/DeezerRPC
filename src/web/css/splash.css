@@ -1,18 +1,30 @@
+@font-face {
+  font-family: 'MabryDeezer-Bold';
+  src: url('./fonts/MabryDeezer/MabryDeezer-Bold.eot');
+  src: url('./fonts/MabryDeezer/MabryDeezer-Bold.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/MabryDeezer/MabryDeezer-Bold.woff2') format('woff2'),
+       url('./fonts/MabryDeezer/MabryDeezer-Bold.woff') format('woff'),
+       url('./fonts/MabryDeezer/MabryDeezer-Bold.ttf')  format('truetype')
+}
+
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 div {
-    text-align: center;
-    color: black;
-    font-size: 72pt;
-    font-family: arial;
+  text-align: center;
+  color: black;
+  font-size: 72pt;
 }
 
 body {
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+#label {
+  font-family:"MabryDeezer-Bold"
 }

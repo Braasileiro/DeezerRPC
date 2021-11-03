@@ -22,7 +22,7 @@ Discord needs to be running for rich presence to work, otherwise you will have t
 
 Update of rich presence is automatic, does not require any user action.
 
-This application has some options in the system notification area.
+This application has some options in the system notification area:
 * **Toogle**: Shows or hides the DeezerRPC window.
 * **Player**: Manually control basic player actions outside main window.
 * **Settings**: Miscellaneous options like controlling how the window is minimized and checking for updates on startup.

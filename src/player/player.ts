@@ -53,12 +53,13 @@ export function registerRPC() {
                 largeImageText: SONG.getImageText(),
                 smallImageKey: SONG.statusKey,
                 smallImageText: SONG.statusText,
+                buttons: SONG.getButtons(),
                 instance: false
             });
         
-            if (LAST !== SONG.id) {
+            if (LAST !== SONG.getId()) {
                 Tray.setMessage(SONG.trayMessage);
-                LAST = SONG.id;
+                LAST = SONG.getId();
             }
         } catch (e) {
             console.error(e);
@@ -71,7 +72,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
         if (`RADIO_${current.LIVE_ID}` != LAST) RADIO_TIMESTAMP = dayjs(Date.now()).unix()
 
         return new Radio(
-            `RADIO_${current.LIVE_ID}`,
+            current.LIVE_ID,
             current.LIVESTREAM_TITLE,
             listening,
             current.LIVESTREAM_IMAGE_MD5,
@@ -81,7 +82,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
 
     if (current.EPISODE_ID) {
         return new Episode(
-            `EPISODE_${current.EPISODE_ID}`,
+            current.EPISODE_ID,
             current.EPISODE_TITLE,
             listening,
             current.SHOW_ART_MD5,
@@ -93,7 +94,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
 
     if (current.SNG_ID) {
         return new Song(
-            `SONG_${current.SNG_ID}`,
+            current.SNG_ID,
             current.SNG_TITLE,
             listening,
             current.ALB_PICTURE,
@@ -104,7 +105,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
     }
 
     return new Unknown(
-        'UNKNOWN',
+        0,
         'Unknown Title',
         false,
         undefined,

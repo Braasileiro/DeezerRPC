@@ -5,7 +5,7 @@ export default class Song extends PlayerModel {
     artist: string;
 
     constructor(
-        id: string,
+        id: number,
         title: string,
         listening: boolean,
         image: string | undefined,
@@ -19,6 +19,10 @@ export default class Song extends PlayerModel {
         this.artist = !artist ? 'Unknown Artist': artist;
         this.trayMessage = `${this.artist} • ${this.title}`;
         this.notification = `${this.title}\n${this.album}\n${this.artist}`;
+    }
+
+    getId(): string {
+        return `SONG_${this.id}`;
     }
 
     getState(): string {
@@ -35,5 +39,9 @@ export default class Song extends PlayerModel {
 
     getImageText(): string {
         return this.album;
+    }
+
+    getButtons(): any[] | undefined {
+        return [{ label: 'Play on Deezer', url: `https://www.deezer.com/track/${this.id}` }];
     }
 }

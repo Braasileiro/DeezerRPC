@@ -3,7 +3,7 @@ import PlayerModel from './player';
 
 export default class Unknown extends PlayerModel {
     constructor(
-        id: string,
+        id: number,
         title: string,
         listening: boolean,
         image: string | undefined,
@@ -15,6 +15,10 @@ export default class Unknown extends PlayerModel {
         this.statusText = undefined;
         this.trayMessage = APP.name;
         this.notification = 'Unknown';
+    }
+
+    getId(): string {
+        return 'UNKNOWN';
     }
 
     getState(): string {
@@ -31,5 +35,9 @@ export default class Unknown extends PlayerModel {
 
     getImageText(): string {
         return APP.name;
+    }
+
+    getButtons(): any[] | undefined {
+        return undefined;
     }
 }

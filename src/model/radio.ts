@@ -3,7 +3,7 @@ import PlayerModel from './player';
 
 export default class Radio extends PlayerModel {
     constructor(
-        id: string,
+        id: number,
         title: string,
         listening: boolean,
         image: string | undefined,
@@ -15,6 +15,10 @@ export default class Radio extends PlayerModel {
         this.statusText = 'Streaming';
         this.trayMessage = `Radio • ${this.title}`;
         this.notification = `${this.title}\nRadio`;
+    }
+
+    getId(): string {
+        return `RADIO_${this.id}`;
     }
 
     getState(): string {
@@ -31,5 +35,9 @@ export default class Radio extends PlayerModel {
 
     getImageText(): string {
         return APP.name;
+    }
+
+    getButtons(): any[] | undefined {
+        return undefined;
     }
 }

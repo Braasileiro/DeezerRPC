@@ -6,7 +6,7 @@ export default class Episode extends PlayerModel {
     description: string;
 
     constructor(
-        id: string,
+        id: number,
         title: string,
         listening: boolean,
         image: string | undefined,
@@ -20,6 +20,10 @@ export default class Episode extends PlayerModel {
         this.description = description
         this.trayMessage = `${this.name} • ${this.title}`;
         this.notification = `${this.title}\n${this.name}`;
+    }
+
+    getId(): string {
+        return `EPISODE_${this.id}`;
     }
 
     getState(): string {
@@ -36,5 +40,9 @@ export default class Episode extends PlayerModel {
 
     getImageText(): string {
         return APP.name;
+    }
+
+    getButtons(): any[] | undefined {
+        return [{ label: 'Play on Deezer', url: `https://www.deezer.com/episode/${this.id}` }];
     }
 }

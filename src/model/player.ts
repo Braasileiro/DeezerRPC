@@ -1,5 +1,5 @@
 export default abstract class PlayerModel {
-    id: string;
+    id: number;
     title: string;
     listening: boolean;
     image: string | undefined;
@@ -11,7 +11,7 @@ export default abstract class PlayerModel {
     notification: string = '';
 
     constructor(
-        id: string,
+        id: number,
         title: string,
         listening: boolean,
         image: string | undefined,
@@ -26,8 +26,10 @@ export default abstract class PlayerModel {
         this.statusText = this.listening ? 'Listening' : 'Paused';
     }
 
+    abstract getId(): string
     abstract getState(): string;
     abstract getStartTimestamp(): number | undefined;
     abstract getEndTimestamp(): number | undefined;
     abstract getImageText(): string;
+    abstract getButtons(): any[] | undefined;
 }

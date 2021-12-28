@@ -53,7 +53,7 @@ export function registerRPC() {
                 largeImageText: SONG.getImageText(),
                 smallImageKey: SONG.statusKey,
                 smallImageText: SONG.statusText,
-                instance: false,
+                instance: false
             });
         
             if (LAST !== SONG.id) {
@@ -122,6 +122,6 @@ function timestamp(listening: boolean, remaining: number): number | undefined {
     return undefined;
 }
 
-function artists(list: Array<any>): string {
-    return list?.map(o => o.ART_NAME).join(", ");
+function artists(artist: string, list: any[]): string {
+    return list?.map(o => o.ART_NAME).join(", ") || artist;
 }

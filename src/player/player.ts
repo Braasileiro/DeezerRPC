@@ -99,7 +99,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
             current.ALB_PICTURE,
             timestamp(listening, remaining),
             current.ALB_TITLE,
-            current.ART_NAME
+            artists(current.ARTISTS)
         );
     }
 
@@ -120,4 +120,8 @@ function timestamp(listening: boolean, remaining: number): number | undefined {
     }
 
     return undefined;
+}
+
+function artists(list: Array<any>): string {
+    return list.map(o => o.ART_NAME).join(", ");
 }

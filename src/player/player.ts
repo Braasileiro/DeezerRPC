@@ -68,7 +68,7 @@ export function registerRPC() {
 
 function getSong(current: any, listening: boolean, remaining: number): PlayerModel {    
     if (current.LIVE_ID) {
-        if (`RADIO_${current.LIVE_ID}` != LAST) RADIO_TIMESTAMP = Date.now() * 1000;
+        if (`RADIO_${current.LIVE_ID}` != LAST) RADIO_TIMESTAMP = Math.floor(Date.now() / 1000);
 
         return new Radio(
             current.LIVE_ID,

@@ -63,7 +63,6 @@
     "electron-store": "^8.0.1",
     "discord-rpc": "^4.0.1",
     "electron-settings": "^4.0.2",
-    "dayjs": "^1.10.7",
     "got": "^11.8.2",
     "set-interval-async": "^2.0.3"
   }

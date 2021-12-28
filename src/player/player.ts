@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { RPC } from '../app/app';
 import Song  from '../model/song';
 import Radio from '../model/radio';
@@ -42,7 +41,7 @@ export function registerRPC() {
                 ]`
             );
 
-            SONG = getSong(current, listening, remaining);
+            SONG = getSong(current, listening, remaining * 1000);
 
             RPC.setActivity({
                 details: SONG.title,
@@ -69,7 +68,7 @@ export function registerRPC() {
 
 function getSong(current: any, listening: boolean, remaining: number): PlayerModel {    
     if (current.LIVE_ID) {
-        if (`RADIO_${current.LIVE_ID}` != LAST) RADIO_TIMESTAMP = dayjs(Date.now()).unix()
+        if (`RADIO_${current.LIVE_ID}` != LAST) RADIO_TIMESTAMP = Date.now();
 
         return new Radio(
             current.LIVE_ID,
@@ -115,9 +114,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
 
 function timestamp(listening: boolean, remaining: number): number | undefined {
     if (listening) {
-        return dayjs(Date.now())
-        .add(remaining, 's')
-        .unix();
+        return Date.now() + remaining;
     }
 
     return undefined;

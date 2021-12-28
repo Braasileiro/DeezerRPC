@@ -99,7 +99,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
             current.ALB_PICTURE,
             timestamp(listening, remaining),
             current.ALB_TITLE,
-            artists(current.ARTISTS)
+            artists(current.ART_NAME, current.ARTISTS)
         );
     }
 

@@ -1,6 +1,6 @@
 import { Client } from 'discord-rpc';
-import Configstore from 'configstore';
 import { BrowserWindow } from 'electron';
+import ElectronStore from 'electron-store';
 
 const PACKAGE = require('../../package.json');
 
@@ -29,13 +29,13 @@ export const APP = {
     },
 };
 
-export const APP_CONFIG = new Configstore(
-    PACKAGE.name, {
+export const APP_CONFIG = new ElectronStore({
+    defaults: {
         closeToTray: false,
         minimizeToTray: false,
         checkUpdates: true
     }
-);
+});
 
 // RPC
 export const RPC = new Client({

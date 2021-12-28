@@ -123,5 +123,5 @@ function timestamp(listening: boolean, remaining: number): number | undefined {
 }
 
 function artists(list: Array<any>): string {
-    return list.map(o => o.ART_NAME).join(", ");
+    return list?.map(o => o.ART_NAME).join(", ");
 }

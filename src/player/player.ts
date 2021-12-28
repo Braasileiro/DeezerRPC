@@ -41,7 +41,7 @@ export function registerRPC() {
                 ]`
             );
 
-            SONG = getSong(current, listening, remaining * 1000);
+            SONG = getSong(current, listening, remaining);
 
             RPC.setActivity({
                 details: SONG.title,
@@ -114,7 +114,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
 
 function timestamp(listening: boolean, remaining: number): number | undefined {
     if (listening) {
-        return Date.now() + remaining;
+        return Date.now() + (remaining * 1000);
     }
 
     return undefined;

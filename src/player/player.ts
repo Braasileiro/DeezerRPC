@@ -44,6 +44,7 @@ export function registerRPC() {
             SONG = getSong(current, listening, remaining);
 
             RPC.setActivity({
+                type: 'LISTENING',
                 details: SONG.title,
                 state: SONG.getState(),
                 startTimestamp: SONG.getStartTimestamp(),

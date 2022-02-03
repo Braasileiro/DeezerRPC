@@ -2,6 +2,7 @@ import { APP, RPC } from './app/app';
 import * as Tray from './manager/tray';
 import * as Update from './util/update';
 import * as Player from './player/player';
+import * as Playlist from './playlist/playlist';
 import * as Window from './manager/window';
 import * as Preferences from './util/preferences';
 import { app, BrowserWindow, dialog } from 'electron';
@@ -28,6 +29,7 @@ function createMainWindow() {
         splashWindow.close();
         Tray.register();
         Player.registerShortcuts();
+        Playlist.registerContextMenu();
 
         if (Preferences.getPreference<boolean>(APP.preferences.checkUpdates)) Update.checkVersion(false);
 

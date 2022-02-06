@@ -5,8 +5,8 @@ import * as Player from './player/player';
 import * as Playlist from './playlist/playlist';
 import * as Window from './manager/window';
 import * as Preferences from './util/preferences';
-import { app, BrowserWindow, dialog } from 'electron';
-
+import * as path from 'path';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 
 // Entry
 function main() {
@@ -18,7 +18,7 @@ function createMainWindow() {
     let splashWindow: BrowserWindow;
 
     // Create MainWindow
-    global.__mainWindow = Window.create(false);
+    global.__mainWindow = Window.create(false, path.join(__dirname, 'app/preload.js'));
 
     // Load URL
     __mainWindow.loadURL(APP.settings.deezerUrl, { userAgent: Window.userAgent() });
@@ -39,6 +39,30 @@ function createMainWindow() {
 
     __mainWindow.on('minimize', () => {
         if (Preferences.getPreference<boolean>(APP.preferences.minimizeToTray)) __mainWindow.hide();
+    });
+
+    ipcMain.on('window-minimize', (event, eventName) => {
+        const window = BrowserWindow.fromWebContents(event.sender);
+
+        window?.minimize();
+    });
+
+    ipcMain.on('window-is-maximized', (event, eventName) => {
+        const window = BrowserWindow.fromWebContents(event.sender);
+
+        event.returnValue = window?.isMaximized();
+    });
+
+    ipcMain.on('window-maximize', (event, eventName) => {
+        const window = BrowserWindow.fromWebContents(event.sender);
+        if (window) {
+            window.isMaximized() ? window.unmaximize() : window.maximize()
+        }
+    });
+
+    ipcMain.on('window-close', (event, eventName) => {
+        const window = BrowserWindow.fromWebContents(event.sender);
+        window?.close();
     });
 
     __mainWindow.on('close', (event) => {

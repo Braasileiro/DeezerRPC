@@ -67,7 +67,7 @@ export function registerRPC() {
 }
 
 function getSong(current: any, listening: boolean, remaining: number): PlayerModel {    
-    if (current.LIVE_ID) {
+    if (current?.LIVE_ID) {
         if (`RADIO_${current.LIVE_ID}` != LAST) RADIO_TIMESTAMP = Math.floor(Date.now() / 1000);
 
         return new Radio(
@@ -79,7 +79,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
         );
     }
 
-    if (current.EPISODE_ID) {
+    if (current?.EPISODE_ID) {
         return new Episode(
             current.EPISODE_ID,
             current.EPISODE_TITLE,
@@ -91,7 +91,7 @@ function getSong(current: any, listening: boolean, remaining: number): PlayerMod
         );
     }
 
-    if (current.SNG_ID) {
+    if (current?.SNG_ID) {
         return new Song(
             current.SNG_ID,
             current.SNG_TITLE,

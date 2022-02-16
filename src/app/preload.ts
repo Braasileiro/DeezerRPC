@@ -39,6 +39,9 @@ const getCustomCssElement = () => {
         #page_sidebar, #page_topbar {
             top: 30px;
         }
+        .page-player .player-full .player-header {
+            top: 30px;
+        }
         .page-sidebar .sidebar-header .sidebar-header-logo {
             display: none;
         }

@@ -4,9 +4,8 @@ import * as Tray from './manager/tray';
 import * as Update from './util/update';
 import * as Player from './player/player';
 import * as Window from './manager/window';
-import * as Playlist from './playlist/playlist';
 import * as Preferences from './util/preferences';
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
 
 // Entry
 function main() {
@@ -30,7 +29,6 @@ function createMainWindow() {
         splashWindow.close();
         Tray.register();
         Player.registerShortcuts();
-        Playlist.registerContextMenu();
 
         if (Preferences.getPreference<boolean>(APP.preferences.checkUpdates)) Update.checkVersion(false);
 
@@ -62,34 +60,6 @@ function initializeRPC() {
         dialog.showErrorBox("Rich Presence Login Failed", "Please, verify if your discord app is opened/working and relaunch this application.");
     });
 }
-
-
-// IPC
-ipcMain.on('window-minimize', (event) => {
-    const window = BrowserWindow.fromWebContents(event.sender);
-
-    window?.minimize();
-});
-
-ipcMain.on('window-is-maximized', (event) => {
-    const window = BrowserWindow.fromWebContents(event.sender);
-
-    event.returnValue = window?.isMaximized();
-});
-
-ipcMain.on('window-maximize', (event) => {
-    const window = BrowserWindow.fromWebContents(event.sender);
-
-    if (window) {
-        window.isMaximized() ? window.unmaximize() : window.maximize();
-    }
-});
-
-ipcMain.on('window-close', (event) => {
-    const window = BrowserWindow.fromWebContents(event.sender);
-
-    window?.close();
-});
 
 
 // App

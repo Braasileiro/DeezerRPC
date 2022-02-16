@@ -12,30 +12,12 @@ export function create(visibility: boolean, preload?: string) {
     if (preload) {
         options = Object.assign(options, {
             webPreferences: {
-                preload: preload,
-                enableRemoteModule: true
-            },
-            titleBarStyle: 'hidden',
+                preload: preload
+            }
         });
     }
 
     let window = new BrowserWindow(options);
-
-    window.on('enter-full-screen', () => {
-        window.webContents.send('window-fullscreen', true)
-    });
-
-    window.on('leave-full-screen', () => {
-        window.webContents.send('window-fullscreen', false)
-    });
-
-    window.on('focus', () => {
-        window.webContents.send('window-focus', true)
-    });
-
-    window.on('blur', () => {
-        window.webContents.send('window-focus', false)
-    });
 
     window.setMenu(null);
 

@@ -1,23 +1,6 @@
-import { ipcRenderer } from 'electron';
-import { Color, Titlebar } from 'custom-electron-titlebar';
-
 window.addEventListener('DOMContentLoaded', () => {
-    createTitlebar();
     createCustomNavigation();
 });
-
-function createTitlebar() {
-    const titlebar = new Titlebar({
-        backgroundColor: Color.fromHex("#23232d"),
-        onMinimize: () => ipcRenderer.send('window-minimize'),
-        onMaximize: () => ipcRenderer.send('window-maximize'),
-        onClose: () => ipcRenderer.send('window-close'),
-        isMaximized: () => ipcRenderer.sendSync('window-is-maximized'),
-        onMenuItemClick: () => { },
-    });
-
-    titlebar.updateTitle('Deezer');
-}
 
 function createCustomNavigation() {
     const headerInterval = setInterval(() => {
@@ -36,36 +19,21 @@ function createCustomNavigation() {
 function createCustomNavigationCss() {
     const element = document.createElement("style");
 
-    element.innerHTML = `
-        .cet-titlebar {
-            background-color: var(--background-secondary) !important;
-            color: var(--text-primary);
-        }
-        .cet-icon svg {
-            display: inline;
-            fill: var(--text-primary) !important;
-        }
-        #page_sidebar, #page_topbar {
-            top: 30px;
-        }
-        .page-player .player-full .player-header {
-            top: 30px;
-        }
-        .page-sidebar .sidebar-header .sidebar-header-logo {
-            display: none;
-        }
-        .page-sidebar .sidebar-header .custom-navigation {
-            padding: 12px;
-            padding-bottom: 0;
-        }
-        .page-sidebar .sidebar-header .custom-navigation-btn {
-            display: inline-block;
-            padding: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-    `;
+    element.innerHTML =
+`.page-sidebar .sidebar-header .sidebar-header-logo {
+    display: none;
+}
+.page-sidebar .sidebar-header .custom-navigation {
+    padding: 12px;
+    padding-bottom: 0;
+}
+.page-sidebar .sidebar-header .custom-navigation-btn {
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.5rem;
+}`;
     
     document.querySelector('head')?.appendChild(element);
 };

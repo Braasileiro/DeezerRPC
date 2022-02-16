@@ -121,5 +121,7 @@ function timestamp(listening: boolean, remaining: number): number | undefined {
 }
 
 function artists(artist: string, list: any[]): string {
-    return list?.map(o => o.ART_NAME).join(", ") || artist;
+    let names = list?.map(o => o.ART_NAME).join(", ") || artist;
+
+    return names.length <= 128 ? names : artist;
 }

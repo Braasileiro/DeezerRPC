@@ -2,26 +2,40 @@ import { APP } from '../app/app';
 import { BrowserWindow } from 'electron';
 
 export function create(visibility: boolean, preload?: string) {
-    let window: BrowserWindow;
+    let options = {
+        width: APP.settings.windowWidth,
+        height: APP.settings.windowHeight,
+        show: visibility,
+        title: APP.name
+    };
 
     if (preload) {
-        window = new BrowserWindow({
-            width: APP.settings.windowWidth,
-            height: APP.settings.windowHeight,
-            show: visibility,
-            title: APP.name,
+        console.log(preload);
+        options = Object.assign(options, {
             webPreferences: {
-                preload: preload
-            }
-        });
-    } else {
-        window = new BrowserWindow({
-            width: APP.settings.windowWidth,
-            height: APP.settings.windowHeight,
-            show: visibility,
-            title: APP.name
+                preload: preload,
+                enableRemoteModule: true,
+            },
+            titleBarStyle: 'hidden',
         });
     }
+    let window = new BrowserWindow(options);
+
+    window.on('enter-full-screen', () => {
+        window.webContents.send('window-fullscreen', true)
+    });
+
+    window.on('leave-full-screen', () => {
+        window.webContents.send('window-fullscreen', false)
+    });
+
+    window.on('focus', () => {
+        window.webContents.send('window-focus', true)
+    });
+
+    window.on('blur', () => {
+        window.webContents.send('window-focus', false)
+    });
 
     window.setMenu(null);
 

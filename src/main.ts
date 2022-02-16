@@ -50,7 +50,6 @@ function createMainWindow() {
 
     // Create SplashWindow
     splashWindow = Window.create(true);
-    splashWindow.setMenu(null);
     splashWindow.setResizable(false);
     splashWindow.setMaximizable(false);
     splashWindow.loadURL(`file://${__dirname}/web/splash.html`)

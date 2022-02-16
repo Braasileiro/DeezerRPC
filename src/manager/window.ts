@@ -10,15 +10,15 @@ export function create(visibility: boolean, preload?: string) {
     };
 
     if (preload) {
-        console.log(preload);
         options = Object.assign(options, {
             webPreferences: {
                 preload: preload,
-                enableRemoteModule: true,
+                enableRemoteModule: true
             },
             titleBarStyle: 'hidden',
         });
     }
+
     let window = new BrowserWindow(options);
 
     window.on('enter-full-screen', () => {

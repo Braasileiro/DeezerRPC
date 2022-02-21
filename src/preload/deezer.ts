@@ -17,23 +17,26 @@ function createCustomNavigation() {
 }
 
 function createCustomNavigationCss() {
-    const element = document.createElement("style");
+    const element = document.createElement('style');
 
-    element.innerHTML =
-`.page-sidebar .sidebar-header .sidebar-header-logo {
-    display: none;
-}
-.page-sidebar .sidebar-header .custom-navigation {
-    padding: 12px;
-    padding-bottom: 0;
-}
-.page-sidebar .sidebar-header .custom-navigation-btn {
-    display: inline-block;
-    padding: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1.5rem;
-}`;
+    element.innerHTML = `
+    #page_topbar, #page_sidebar, #page_content, .player-full {
+        margin-top: 30px;
+    }
+    .page-sidebar .sidebar-header .sidebar-header-logo {
+        display: none;
+    }
+    .page-sidebar .sidebar-header .custom-navigation {
+        padding: 12px;
+        padding-bottom: 0;
+    }
+    .page-sidebar .sidebar-header .custom-navigation-btn {
+        display: inline-block;
+        padding: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }`;
     
     document.querySelector('head')?.appendChild(element);
 };

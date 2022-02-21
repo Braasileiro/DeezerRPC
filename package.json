@@ -18,7 +18,7 @@
     "appId": "com.brasileiro.deezerrpc",
     "asar": "true",
     "productName": "DeezerRPC",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon/icon.png",
     "files": [
       "build/**/*"
     ],
@@ -64,6 +64,7 @@
     "electron-settings": "^4.0.2",
     "electron-store": "^8.0.1",
     "got": "^11.8.2",
-    "set-interval-async": "^2.0.3"
+    "set-interval-async": "^2.0.3",
+    "custom-electron-titlebar": "^4.1.0"
   }
 }

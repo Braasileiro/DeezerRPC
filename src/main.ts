@@ -4,6 +4,7 @@ import * as Tray from './manager/tray';
 import * as Update from './util/update';
 import * as Player from './player/player';
 import * as Window from './manager/window';
+import * as Titlebar from './manager/titlebar';
 import * as Preferences from './util/preferences';
 import { app, BrowserWindow, dialog } from 'electron';
 
@@ -13,12 +14,18 @@ function main() {
 }
 
 function createMainWindow() {
-
     // SplashWindow
     let splashWindow: BrowserWindow;
 
     // Create MainWindow
-    global.__mainWindow = Window.create(false, path.join(__dirname, 'app/preload.js'));
+    global.__mainWindow = Window.createWindow(
+        false, {
+            titleBarStyle: 'hidden',
+            webPreferences: {
+                preload: path.join(__dirname, 'preload/deezer.js')
+            }
+        }
+    );
 
     // Load URL
     __mainWindow.loadURL(APP.settings.deezerUrl, { userAgent: Window.userAgent() });
@@ -27,6 +34,7 @@ function createMainWindow() {
     __mainWindow.webContents.once('did-finish-load', () => {
         __mainWindow.show();
         splashWindow.close();
+
         Tray.register();
         Player.registerShortcuts();
 
@@ -35,6 +43,14 @@ function createMainWindow() {
         // Initialize RPC
         initializeRPC();
     });
+
+    __mainWindow.on('show', () => {
+        Titlebar.register();
+    });
+
+    __mainWindow.on('hide', () => {
+        Titlebar.unregister();
+    })
 
     __mainWindow.on('minimize', () => {
         if (Preferences.getPreference<boolean>(APP.preferences.minimizeToTray)) __mainWindow.hide();
@@ -47,10 +63,10 @@ function createMainWindow() {
     });
 
     // Create SplashWindow
-    splashWindow = Window.create(true);
+    splashWindow = Window.createWindow(true);
     splashWindow.setResizable(false);
     splashWindow.setMaximizable(false);
-    splashWindow.loadURL(`file://${__dirname}/web/splash.html`)
+    splashWindow.loadFile(path.join(__dirname, './web/splash.html'));
 }
 
 function initializeRPC() {
@@ -60,7 +76,6 @@ function initializeRPC() {
         dialog.showErrorBox("Rich Presence Login Failed", "Please, verify if your discord app is opened/working and relaunch this application.");
     });
 }
-
 
 // App
 app.on('ready', main);

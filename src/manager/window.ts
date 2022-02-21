@@ -1,21 +1,15 @@
 import { APP } from '../app/app';
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, BrowserWindowConstructorOptions } from 'electron';
 
-export function create(visibility: boolean, preload?: string) {
-    let options = {
+export function createWindow(visibility: boolean, params?: BrowserWindowConstructorOptions): BrowserWindow {
+    let options: Electron.BrowserWindowConstructorOptions = {
         width: APP.settings.windowWidth,
         height: APP.settings.windowHeight,
         show: visibility,
         title: APP.name
     };
 
-    if (preload) {
-        options = Object.assign(options, {
-            webPreferences: {
-                preload: preload
-            }
-        });
-    }
+    if (params) options = Object.assign(options, params);
 
     let window = new BrowserWindow(options);
 

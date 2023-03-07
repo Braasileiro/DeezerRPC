@@ -1,4 +1,20 @@
+# This project is no longer actively maintained.
+## The Discord Developer Application will stay the way it is, for those who will continue to use the current application.
+
+This project started as a way for me to learn TypeScript at the time and also out of frustration because Deezer didn't have an integration with Discord like Spotify.
+
+It looks like Deezer will never implement an official integration and this is really disheartening.
+
+As I said above this project was a way for me to learn TypeScript at the time so the code must not be one of the best.
+
+I will leave the project as a public archive. Anyone who wants to clone and improve the project feel free.
+
+Sorry to be leaving the project, but I really don't feel very excited about working on it.
+
+## Thanks for everything!
+
 # DeezerRPC
+
 Deezer integrated with the Discord Rich Presence.
 
 This project is not supported and created by Deezer.
